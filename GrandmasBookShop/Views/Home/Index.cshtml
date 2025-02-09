@@ -1,8 +1,38 @@
-﻿@{
+﻿@* Views/Home/Index.cshtml *@
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h1 class="mt-4">Welcome to Grandma's Book Shop</h1>
+
+    <div class="row my-4">
+        <div class="col-md-4">
+            <!-- Make sure you add an image file named 'grandma.jpg' in wwwroot/images/ -->
+            <!--<img src="~/images/grandma.jpg" class="img-fluid rounded" alt="Grandma" /> -->
+            <img src="$" class="img-fluid rounded" alt="Grandma" />
+        </div>
+        <div class="col-md-8">
+            <p>
+                My Grandma has always been an inspiration—a wellspring of wisdom and kindness. Over the years, she has amassed a unique collection of books, each one representing a cherished memory or a lesson learned.
+            </p>
+            <p>
+                In this shop, you’ll find a curated selection of these books, each with its own story and legacy. Enjoy exploring her collection and discovering the stories behind each book.
+            </p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col">
+            <h2>About Grandma</h2>
+            <p>
+                Born in [Year], Grandma has experienced decades of change and growth. Her passion for reading and learning has enriched her life and the lives of those around her. Now, she shares her wisdom and memories through these carefully selected books.
+            </p>
+            <p>
+                Whether you’re looking for timeless stories, practical advice, or simply a window into the past, you’re sure to find something that speaks to you.
+            </p>
+        </div>
+    </div>
 </div>
