@@ -16,5 +16,15 @@ namespace GrandmasBookShop.Models
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Required]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Price must be non-negative.")]
+        public decimal Price { get; set; }
+
+        [Display(Name = "Copies Available")]
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Copies available must be 0 or more.")]
+        public int CopiesAvailable { get; set; }
     }
 }

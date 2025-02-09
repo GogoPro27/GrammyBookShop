@@ -72,11 +72,10 @@ namespace GrandmasBookShop.Controllers
             return View();
         }
 
-        // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Name,Author,PhotoUrl,Description")] Book book)
+        public async Task<IActionResult> Create([Bind("Name,Author,PhotoUrl,Description,Price,CopiesAvailable")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +85,7 @@ namespace GrandmasBookShop.Controllers
             }
             return View(book);
         }
+
 
         // GET: Books/Edit/5
         [Authorize(Roles = "Admin")]
@@ -99,11 +99,10 @@ namespace GrandmasBookShop.Controllers
             return View(book);
         }
 
-        // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,PhotoUrl,Description")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,PhotoUrl,Description,Price,CopiesAvailable")] Book book)
         {
             if (id != book.Id)
             {
@@ -131,6 +130,8 @@ namespace GrandmasBookShop.Controllers
             }
             return View(book);
         }
+
+
 
         // GET: Books/Delete/5
         [Authorize(Roles = "Admin")]
