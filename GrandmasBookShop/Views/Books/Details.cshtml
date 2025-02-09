@@ -17,6 +17,19 @@
     </div>
 </div>
 
+<!-- Add to Cart Form with Quantity Input -->
+<form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
+    <!-- Hidden field to pass the book's ID -->
+    <input type="hidden" name="bookId" value="@Model.Id" />
+    
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control" style="width: 100px;" />
+    </div>
+    
+    <button type="submit" class="btn btn-success mt-2">Add to Cart</button>
+</form>
+
 <div>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     @if (User.IsInRole("Admin"))
