@@ -22,21 +22,40 @@ namespace GrandmasBookShop.Controllers
         // GET: ShoppingCart
         public async Task<IActionResult> Index()
         {
-            // Get the current user's Id
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Retrieve the user's shopping cart including items and related book details
+            // Retrieve the cart with items and related book details.
             var cart = await _context.ShoppingCarts
                 .Include(c => c.Items)
                     .ThenInclude(i => i.Book)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            // If the cart doesn't exist, create an empty one
             if (cart == null)
             {
-                cart = new ShoppingCart { UserId = userId };
+                // Create an empty cart if none exists.
+                cart = new ShoppingCart { UserId = userId, LastUpdated = DateTime.UtcNow };
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                // Check if cart has been inactive for more than 10 minutes.
+                if (cart.LastUpdated < DateTime.UtcNow.AddMinutes(-10))
+                {
+                    // Release the reserved inventory.
+                    foreach (var item in cart.Items)
+                    {
+                        if (item.Book != null)
+                        {
+                            item.Book.CopiesAvailable += item.Quantity;
+                        }
+                    }
+                    _context.ShoppingCartItems.RemoveRange(cart.Items);
+                    cart.LastUpdated = DateTime.UtcNow;
+                    await _context.SaveChangesAsync();
+
+                    TempData["Message"] = "Your cart has been cleared due to inactivity.";
+                }
             }
 
             return View(cart);
@@ -46,30 +65,43 @@ namespace GrandmasBookShop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int bookId, int quantity = 1)
         {
-            // Get the current user's Id
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var book = await _context.Books.FindAsync(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
 
-            // Retrieve or create the user's shopping cart
+            // Check if enough copies are available.
+            if (book.CopiesAvailable < quantity)
+            {
+                TempData["Error"] = "Not enough copies available.";
+                return RedirectToAction("Details", "Books", new { id = bookId });
+            }
+
+            // Retrieve or create the user's shopping cart.
             var cart = await _context.ShoppingCarts
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
+
             if (cart == null)
             {
-                cart = new ShoppingCart { UserId = userId };
+                cart = new ShoppingCart { UserId = userId, LastUpdated = DateTime.UtcNow };
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
             }
 
-            // Check if the book is already in the cart
+            // Reserve inventory: reduce the available copies.
+            book.CopiesAvailable -= quantity;
+
+            // Check if the item is already in the cart.
             var item = cart.Items.FirstOrDefault(i => i.BookId == bookId);
             if (item != null)
             {
-                // Increase quantity if the item exists
                 item.Quantity += quantity;
             }
             else
             {
-                // Otherwise, add a new item
                 item = new ShoppingCartItem
                 {
                     BookId = bookId,
@@ -79,6 +111,9 @@ namespace GrandmasBookShop.Controllers
                 _context.ShoppingCartItems.Add(item);
             }
 
+            // Update the cart's LastUpdated timestamp.
+            cart.LastUpdated = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -87,11 +122,25 @@ namespace GrandmasBookShop.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int itemId)
         {
-            // Find the cart item by its Id
             var item = await _context.ShoppingCartItems.FindAsync(itemId);
             if (item != null)
             {
+                var book = await _context.Books.FindAsync(item.BookId);
+                if (book != null)
+                {
+                    // Return the reserved copies to inventory.
+                    book.CopiesAvailable += item.Quantity;
+                }
+
+                // Remove the item from the cart.
                 _context.ShoppingCartItems.Remove(item);
+
+                // Optionally update the cart's LastUpdated timestamp.
+                var cart = await _context.ShoppingCarts.FindAsync(item.ShoppingCartId);
+                if (cart != null)
+                {
+                    cart.LastUpdated = DateTime.UtcNow;
+                }
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
