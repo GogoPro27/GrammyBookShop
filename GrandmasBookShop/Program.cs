@@ -22,7 +22,7 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
-//await SeedData.SeedBooksAsync(app);
+await SeedData.SeedBooksAsync(app);
 
 // Seed roles and the default admin user.
 await SeedData.SeedRolesAndAdminAsync(app);

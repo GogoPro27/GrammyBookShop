@@ -14,7 +14,7 @@ namespace GrandmasBookShop.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
-        private const int PageSize = 10; // Change this to the desired number of items per page
+        private const int PageSize = 9; // Change this to the desired number of items per page
 
         public BooksController(ApplicationDbContext context, IMemoryCache cache)
         {
@@ -23,48 +23,49 @@ namespace GrandmasBookShop.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(string searchString, int page = 1)
+        public async Task<IActionResult> Index(string searchString, string genre, int page = 1)
         {
-            // Create a cache key that includes the page and search filter.
-            string cacheKey = $"Books_{searchString}_{page}";
+            var booksQuery = _context.Books.AsQueryable();
 
-            if (!_cache.TryGetValue(cacheKey, out BooksIndexViewModel viewModel))
+            // Filter by search string if provided.
+            if (!string.IsNullOrEmpty(searchString))
             {
-                // Not in cache, so run the query.
-                var booksQuery = _context.Books.AsQueryable();
-
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    booksQuery = booksQuery.Where(b =>
-                        b.Name.Contains(searchString) || b.Author.Contains(searchString));
-                }
-
-                var count = await booksQuery.CountAsync();
-
-                var books = await booksQuery
-                    .OrderBy(b => b.Name)
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize)
-                    .ToListAsync();
-
-                viewModel = new BooksIndexViewModel
-                {
-                    Books = books,
-                    SearchString = searchString,
-                    CurrentPage = page,
-                    TotalPages = (int)Math.Ceiling(count / (double)PageSize)
-                };
-
-                // Set cache options.
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-
-                // Save data in cache.
-                _cache.Set(cacheKey, viewModel, cacheEntryOptions);
+                booksQuery = booksQuery.Where(b =>
+                    b.Name.Contains(searchString) || b.Author.Contains(searchString));
             }
+
+            // Filter by genre if provided.
+            if (!string.IsNullOrEmpty(genre))
+            {
+                booksQuery = booksQuery.Where(b => b.Genre == genre);
+            }
+
+            // Get total count for pagination.
+            var count = await booksQuery.CountAsync();
+
+            // Retrieve the books for the requested page.
+            var books = await booksQuery
+                .OrderBy(b => b.Name)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            // Retrieve the distinct genres for the filter dropdown.
+            var genres = await _context.Books.Select(b => b.Genre).Distinct().ToListAsync();
+
+            var viewModel = new BooksIndexViewModel
+            {
+                Books = books,
+                SearchString = searchString,
+                GenreFilter = genre,
+                Genres = genres,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(count / (double)PageSize)
+            };
 
             return View(viewModel);
         }
+
 
 
         // GET: Books/Details/5
@@ -88,7 +89,7 @@ namespace GrandmasBookShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Name,Author,PhotoUrl,Description,Price,CopiesAvailable")] Book book)
+        public async Task<IActionResult> Create([Bind("Name,Author,PhotoUrl,Description,Price,CopiesAvailable,Genre")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -98,6 +99,7 @@ namespace GrandmasBookShop.Controllers
             }
             return View(book);
         }
+
 
 
         // GET: Books/Edit/5
@@ -115,7 +117,7 @@ namespace GrandmasBookShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,PhotoUrl,Description,Price,CopiesAvailable")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,PhotoUrl,Description,Price,CopiesAvailable,Genre")] Book book)
         {
             if (id != book.Id)
             {
@@ -143,6 +145,7 @@ namespace GrandmasBookShop.Controllers
             }
             return View(book);
         }
+
 
 
 
