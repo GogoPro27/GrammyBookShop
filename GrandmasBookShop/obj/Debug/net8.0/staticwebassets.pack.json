@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\images\\book.png",
+      "PackagePath": "staticwebassets\\images\\book.png"
+    },
+    {
       "Id": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

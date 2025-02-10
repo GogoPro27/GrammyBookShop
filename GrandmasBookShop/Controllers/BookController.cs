@@ -6,53 +6,66 @@ using GrandmasBookShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace GrandmasBookShop.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
         private const int PageSize = 10; // Change this to the desired number of items per page
 
-        public BooksController(ApplicationDbContext context)
+        public BooksController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         // GET: Books
         public async Task<IActionResult> Index(string searchString, int page = 1)
         {
-            // Start with all books
-            var booksQuery = _context.Books.AsQueryable();
+            // Create a cache key that includes the page and search filter.
+            string cacheKey = $"Books_{searchString}_{page}";
 
-            // If a search string is provided, filter by Name or Author
-            if (!string.IsNullOrEmpty(searchString))
+            if (!_cache.TryGetValue(cacheKey, out BooksIndexViewModel viewModel))
             {
-                booksQuery = booksQuery.Where(b =>
-                    b.Name.Contains(searchString) || b.Author.Contains(searchString));
+                // Not in cache, so run the query.
+                var booksQuery = _context.Books.AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    booksQuery = booksQuery.Where(b =>
+                        b.Name.Contains(searchString) || b.Author.Contains(searchString));
+                }
+
+                var count = await booksQuery.CountAsync();
+
+                var books = await booksQuery
+                    .OrderBy(b => b.Name)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize)
+                    .ToListAsync();
+
+                viewModel = new BooksIndexViewModel
+                {
+                    Books = books,
+                    SearchString = searchString,
+                    CurrentPage = page,
+                    TotalPages = (int)Math.Ceiling(count / (double)PageSize)
+                };
+
+                // Set cache options.
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+
+                // Save data in cache.
+                _cache.Set(cacheKey, viewModel, cacheEntryOptions);
             }
-
-            // Get total count for pagination
-            var count = await booksQuery.CountAsync();
-
-            // Retrieve the books for the requested page
-            var books = await booksQuery
-                .OrderBy(b => b.Name)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToListAsync();
-
-            // Prepare the view model
-            var viewModel = new BooksIndexViewModel
-            {
-                Books = books,
-                SearchString = searchString,
-                CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(count / (double)PageSize)
-            };
 
             return View(viewModel);
         }
+
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int id)

@@ -118,6 +118,7 @@ namespace GrandmasBookShop.Controllers
             return RedirectToAction("Index");
         }
 
+
         // POST: ShoppingCart/RemoveFromCart
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int itemId)

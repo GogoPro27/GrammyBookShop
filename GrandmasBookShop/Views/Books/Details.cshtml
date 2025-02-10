@@ -14,7 +14,7 @@
             <strong>Price:</strong>
             @if (Model.CopiesAvailable == 0)
             {
-                    <span class="text-danger">Sold Out</span>
+                <span class="text-danger">Sold Out</span>
             }
             else
             {
@@ -24,27 +24,33 @@
         <p class="card-text"><strong>Copies Available:</strong> @Model.CopiesAvailable</p>
         @if (!string.IsNullOrEmpty(Model.PhotoUrl))
         {
-                <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="max-width:200px;" />
+            <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="max-width:200px;" />
         }
     </div>
 </div>
 
-<!-- Add to Cart Form (if applicable) -->
+<!-- Add to Cart Form with Quantity Input Limited by Copies Available -->
 <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
     <input type="hidden" name="bookId" value="@Model.Id" />
     <div class="form-group">
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control" style="width: 100px;" />
+        <input type="number"
+               id="quantity"
+               name="quantity"
+               value="1"
+               min="1"
+               max="@Model.CopiesAvailable"
+               class="form-control"
+               style="width: 100px;" />
     </div>
-    <button type="submit" class="btn btn-success mt-2" 
-    @(Model.CopiesAvailable == 0 ? "disabled" : "")>Add to Cart</button>
+    <button type="submit" class="btn btn-success mt-2" @(Model.CopiesAvailable == 0 ? "disabled" : "")>Add to Cart</button>
 </form>
 
 <div>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     @if (User.IsInRole("Admin"))
     {
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
     }
 </div>

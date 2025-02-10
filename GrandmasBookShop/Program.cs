@@ -17,8 +17,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+
 
 var app = builder.Build();
+
+//await SeedData.SeedBooksAsync(app);
 
 // Seed roles and the default admin user.
 await SeedData.SeedRolesAndAdminAsync(app);

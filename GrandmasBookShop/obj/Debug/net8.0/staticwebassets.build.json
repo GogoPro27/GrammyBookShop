@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iv79Aabl1uFKFi1bUDHW5v5gUbPSk1UBYWKN8gHu764=",
+  "Hash": "y13iidACOybVuKiOzMMq8LSfQ1NsPuDC5H6gyK6LDS0=",
   "Source": "GrandmasBookShop",
   "BasePath": "_content/GrandmasBookShop",
   "Mode": "Default",
@@ -1231,6 +1231,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\images\\book.png",
+      "SourceId": "GrandmasBookShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\",
+      "BasePath": "_content/GrandmasBookShop",
+      "RelativePath": "images/book.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\book.png"
     },
     {
       "Identity": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\js\\site.js",
