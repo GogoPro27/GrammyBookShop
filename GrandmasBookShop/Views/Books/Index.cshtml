@@ -21,7 +21,8 @@
     @foreach (var book in Model.Books)
     {
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <!-- Added border-0 to remove the card borders -->
+            <div class="card border-0 h-100">
                 <!-- Wrap the image and card body in a link to the details page -->
                 <a asp-action="Details" asp-route-id="@book.Id" class="text-decoration-none text-reset">
                     @if (!string.IsNullOrEmpty(book.PhotoUrl))
