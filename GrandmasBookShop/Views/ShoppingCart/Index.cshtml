@@ -7,36 +7,51 @@
 
 @if (Model.Items == null || !Model.Items.Any())
 {
-        <p>Твојата кошничка е празна.</p>
+    <p>Твојата кошничка е празна.</p>
 }
 else
 {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Книга</th>
-                    <th>Автор</th>
-                    <th>Број на примероци</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Книга</th>
+                <th>Автор</th>
+                <th>Број на примероци</th>
+                <th>Единична цена</th>
+                <th>Вкупно</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var item in Model.Items)
             {
-                        <tr>
-                            <td>@item.Book.Name</td>
-                            <td>@item.Book.Author</td>
-                            <td>@item.Quantity</td>
-                            <td>
-                                <form asp-action="RemoveFromCart" method="post" style="display:inline;">
-                                    <input type="hidden" name="itemId" value="@item.Id" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Избриши</button>
-                                </form>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>@item.Book.Name</td>
+                    <td>@item.Book.Author</td>
+                    <td>@item.Quantity</td>
+                    <td>@string.Format("{0:N0} ден", item.Book.Price)</td>
+                    <td>@string.Format("{0:N0} ден", item.Book.Price * item.Quantity)</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Избриши</button>
+                        </form>
+                    </td>
+                </tr>
             }
-            </tbody>
-        </table>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end"><strong>Вкупно:</strong></td>
+                <td colspan="2">
+                    @{
+                        decimal grandTotal = Model.Items.Sum(item => item.Book.Price * item.Quantity);
+                    }
+                    <strong>@string.Format("{0:N0} ден", grandTotal)</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 }
 
 <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Продолжи со пазарење</a>
