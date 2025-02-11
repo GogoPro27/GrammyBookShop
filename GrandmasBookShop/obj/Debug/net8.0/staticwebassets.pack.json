@@ -17,6 +17,14 @@
       "PackagePath": "staticwebassets\\images\\book.png"
     },
     {
+      "Id": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\images\\grandma_logo.png",
+      "PackagePath": "staticwebassets\\images\\grandma_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\images\\shopping_cart.png",
+      "PackagePath": "staticwebassets\\images\\shopping_cart.png"
+    },
+    {
       "Id": "C:\\Users\\goraz\\Desktop\\dotnet\\GrandmasBookShop\\GrandmasBookShop\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

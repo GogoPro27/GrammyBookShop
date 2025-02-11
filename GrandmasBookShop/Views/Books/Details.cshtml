@@ -1,28 +1,28 @@
 ﻿@model GrandmasBookShop.Models.Book
 @{
-    ViewData["Title"] = "Book Details";
+    ViewData["Title"] = "Детали за книга";
 }
 
-<h1>Book Details</h1>
+<h1>Детали за книга</h1>
 
 <div class="card mb-3">
     <div class="card-body">
         <h4 class="card-title">@Model.Name</h4>
-        <p class="card-text"><strong>Author:</strong> @Model.Author</p>
-        <p class="card-text"><strong>Genre:</strong> @Model.Genre</p>
-        <p class="card-text"><strong>Description:</strong> @Model.Description</p>
+        <p class="card-text"><strong>Автор:</strong> @Model.Author</p>
+        <p class="card-text"><strong>Жанр:</strong> @Model.Genre</p>
+        <p class="card-text"><strong>Опис:</strong> @Model.Description</p>
         <p class="card-text">
-            <strong>Price:</strong>
+            <strong>Цена:</strong>
             @if (Model.CopiesAvailable == 0)
             {
-                <span class="text-danger">Sold Out</span>
+                <span class="text-danger">Продадено</span>
             }
             else
             {
-                @Model.Price.ToString("C")
+                @string.Format("{0:N0} ден", Model.Price)
             }
         </p>
-        <p class="card-text"><strong>Copies Available:</strong> @Model.CopiesAvailable</p>
+        <p class="card-text"><strong>Достапни примероци:</strong> @Model.CopiesAvailable</p>
         @if (!string.IsNullOrEmpty(Model.PhotoUrl))
         {
             <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="max-width:200px;" />
@@ -30,11 +30,11 @@
     </div>
 </div>
 
-<!-- Add to Cart Form with Quantity Input Limited by Copies Available -->
+<!-- Форма за додади во кошничка со бројчена влез (ограничена со достапни примери) -->
 <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
     <input type="hidden" name="bookId" value="@Model.Id" />
     <div class="form-group">
-        <label for="quantity">Quantity:</label>
+        <label for="quantity">Колку:</label>
         <input type="number"
                id="quantity"
                name="quantity"
@@ -44,14 +44,14 @@
                class="form-control"
                style="width: 100px;" />
     </div>
-    <button type="submit" class="btn btn-success mt-2" @(Model.CopiesAvailable == 0 ? "disabled" : "")>Add to Cart</button>
+    <button type="submit" class="btn btn-success mt-2" @(Model.CopiesAvailable == 0 ? "disabled" : "")>Додади во кошничка</button>
 </form>
 
 <div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад кон книгите</a>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Измени</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Избриши</a>
     }
 </div>

@@ -3,20 +3,20 @@
     ViewData["Title"] = "Shopping Cart";
 }
 
-<h1>Shopping Cart</h1>
+<h1>Кошничка</h1>
 
 @if (Model.Items == null || !Model.Items.Any())
 {
-        <p>Your shopping cart is empty.</p>
+        <p>Твојата кошничка е празна.</p>
 }
 else
 {
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Book</th>
-                    <th>Author</th>
-                    <th>Quantity</th>
+                    <th>Книга</th>
+                    <th>Автор</th>
+                    <th>Број на примероци</th>
                     <th></th>
                 </tr>
             </thead>
@@ -30,7 +30,7 @@ else
                             <td>
                                 <form asp-action="RemoveFromCart" method="post" style="display:inline;">
                                     <input type="hidden" name="itemId" value="@item.Id" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">Избриши</button>
                                 </form>
                             </td>
                         </tr>
@@ -39,4 +39,4 @@ else
         </table>
 }
 
-<a asp-controller="Books" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
+<a asp-controller="Books" asp-action="Index" class="btn btn-primary">Продолжи со пазарење</a>

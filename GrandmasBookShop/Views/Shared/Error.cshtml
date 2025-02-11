@@ -1,25 +1,24 @@
-﻿@model ErrorViewModel
+﻿@model GrandmasBookShop.Models.ErrorViewModel
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Грешка";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Грешка.</h1>
+<h2 class="text-danger">Се случи грешка при обработката на вашето барање.</h2>
 
 @if (Model.ShowRequestId)
 {
     <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <strong>Идентификатор на барање:</strong> <code>@Model.RequestId</code>
     </p>
 }
 
-<h3>Development Mode</h3>
+<h3>Режим на развој</h3>
 <p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+    Промена кон <strong>Развој</strong> режим ќе прикаже подетални информации за грешката.
 </p>
 <p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
+    <strong>Режимот на развој не треба да биде овозможен за публично достапни апликации.</strong>
+    Ова може да резултира со прикажување на чувствителни информации до крајните корисници.
+    За локално откривање на грешки, овозможете го режимот <strong>Развој</strong> со поставување на променливата на опкружување <strong>ASPNETCORE_ENVIRONMENT</strong> на <strong>Development</strong> и рестартирајте ја апликацијата.
 </p>
