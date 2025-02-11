@@ -22,30 +22,30 @@
     {
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                @if (!string.IsNullOrEmpty(book.PhotoUrl))
-                {
-                    <img src="@book.PhotoUrl" class="card-img-top" alt="@book.Name" style="height: 200px; object-fit: cover;" />
-                }
-                else
-                {
-                    <img src="/images/default-book.jpg" class="card-img-top" alt="Default Book Image" style="height: 200px; object-fit: cover;" />
-                }
-                <div class="card-body">
-                    <h5 class="card-title">@book.Name</h5>
-                    <p class="card-text">
-                        @if (book.CopiesAvailable == 0)
-                        {
-                            <span class="text-danger">Продадено</span>
-                        }
-                        else
-                        {
-                            @string.Format("{0:N0} ден", book.Price)
-                        }
-                    </p>
-                </div>
-                <div class="card-footer text-center">
-                    <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-primary">Детали</a>
-                </div>
+                <!-- Wrap the image and card body in a link to the details page -->
+                <a asp-action="Details" asp-route-id="@book.Id" class="text-decoration-none text-reset">
+                    @if (!string.IsNullOrEmpty(book.PhotoUrl))
+                    {
+                        <img src="@book.PhotoUrl" class="card-img-top" alt="@book.Name" style="width: 100%; height: auto;" />
+                    }
+                    else
+                    {
+                        <img src="/images/default-book.jpg" class="card-img-top" alt="Default Book Image" style="width: 100%; height: auto;" />
+                    }
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@book.Name</h5>
+                        <p class="card-text">
+                            @if (book.CopiesAvailable == 0)
+                            {
+                                <span class="text-danger">Продадено</span>
+                            }
+                            else
+                            {
+                                @string.Format("{0:N0} ден", book.Price)
+                            }
+                        </p>
+                    </div>
+                </a>
             </div>
         </div>
     }
