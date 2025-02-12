@@ -23,8 +23,6 @@ namespace GrandmasBookShop.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // Retrieve the cart with items and related book details.
             var cart = await _context.ShoppingCarts
                 .Include(c => c.Items)
                     .ThenInclude(i => i.Book)
@@ -32,17 +30,14 @@ namespace GrandmasBookShop.Controllers
 
             if (cart == null)
             {
-                // Create an empty cart if none exists.
                 cart = new ShoppingCart { UserId = userId, LastUpdated = DateTime.UtcNow };
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
             }
             else
             {
-                // Check if cart has been inactive for more than 10 minutes.
                 if (cart.LastUpdated < DateTime.UtcNow.AddMinutes(-10))
                 {
-                    // Release the reserved inventory.
                     foreach (var item in cart.Items)
                     {
                         if (item.Book != null)
@@ -71,15 +66,12 @@ namespace GrandmasBookShop.Controllers
             {
                 return NotFound();
             }
-
-            // Check if enough copies are available.
             if (book.CopiesAvailable < quantity)
             {
                 TempData["Error"] = "Not enough copies available.";
                 return RedirectToAction("Details", "Books", new { id = bookId });
             }
 
-            // Retrieve or create the user's shopping cart.
             var cart = await _context.ShoppingCarts
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
@@ -91,10 +83,8 @@ namespace GrandmasBookShop.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Reserve inventory: reduce the available copies.
             book.CopiesAvailable -= quantity;
 
-            // Check if the item is already in the cart.
             var item = cart.Items.FirstOrDefault(i => i.BookId == bookId);
             if (item != null)
             {
@@ -111,7 +101,6 @@ namespace GrandmasBookShop.Controllers
                 _context.ShoppingCartItems.Add(item);
             }
 
-            // Update the cart's LastUpdated timestamp.
             cart.LastUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -129,14 +118,11 @@ namespace GrandmasBookShop.Controllers
                 var book = await _context.Books.FindAsync(item.BookId);
                 if (book != null)
                 {
-                    // Return the reserved copies to inventory.
                     book.CopiesAvailable += item.Quantity;
                 }
 
-                // Remove the item from the cart.
                 _context.ShoppingCartItems.Remove(item);
 
-                // Optionally update the cart's LastUpdated timestamp.
                 var cart = await _context.ShoppingCarts.FindAsync(item.ShoppingCartId);
                 if (cart != null)
                 {

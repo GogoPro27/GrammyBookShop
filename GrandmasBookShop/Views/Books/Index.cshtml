@@ -6,7 +6,6 @@
 
 <h1>Книги</h1>
 
-<!-- Форма за пребарување -->
 <form asp-action="Index" method="get" class="mb-4">
     <div class="input-group">
         <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Пребарај по име или автор" />
@@ -16,14 +15,11 @@
     </div>
 </form>
 
-<!-- Грид за книги (3 книги по ред) -->
 <div class="row">
     @foreach (var book in Model.Books)
     {
         <div class="col-md-4 mb-4">
-            <!-- Added border-0 to remove the card borders -->
             <div class="card border-0 h-100">
-                <!-- Wrap the image and card body in a link to the details page -->
                 <a asp-action="Details" asp-route-id="@book.Id" class="text-decoration-none text-reset">
                     @if (!string.IsNullOrEmpty(book.PhotoUrl))
                     {
@@ -52,7 +48,6 @@
     }
 </div>
 
-<!-- Пагинација -->
 <nav aria-label="Навигација на страници">
     <ul class="pagination justify-content-center">
         @if (Model.CurrentPage > 1)

@@ -142,3 +142,4 @@ C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\GrandmasBookShop.pdb
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\GrandmasBookShop.genruntimeconfig.cache
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\ref\GrandmasBookShop.dll
+C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\GrandmasBookShop.sourcelink.json

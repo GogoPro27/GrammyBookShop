@@ -6,18 +6,15 @@
 <h1>Детали за книга</h1>
 
 <div class="row mb-3">
-    <!-- Left Column: Book Image -->
     <div class="col-md-4">
         @if (!string.IsNullOrEmpty(Model.PhotoUrl))
         {
-            <!-- Clicking the image opens the modal -->
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#imageModal">
                 <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="width:100%; max-width:200px;" />
             </a>
         }
     </div>
 
-    <!-- Right Column: Book Details -->
     <div class="col-md-8">
         <h4>@Model.Name</h4>
         <p><strong>Автор:</strong> @Model.Author</p>
@@ -36,7 +33,6 @@
         </p>
         <p><strong>Достапни примероци:</strong> @Model.CopiesAvailable</p>
 
-        <!-- Shopping Cart Form -->
         <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
             <input type="hidden" name="bookId" value="@Model.Id" />
             <div class="form-group">
@@ -55,7 +51,6 @@
             </button>
         </form>
 
-        <!-- Action Buttons -->
         <div>
             <a asp-action="Index" class="btn btn-secondary">Назад кон книгите</a>
             @if (User.IsInRole("Admin"))
@@ -67,7 +62,6 @@
     </div>
 </div>
 
-<!-- Modal for Image Zoom -->
 @if (!string.IsNullOrEmpty(Model.PhotoUrl))
 {
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -75,11 +69,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="imageModalLabel">@Model.Name</h5>
-                    <!-- Bootstrap 5 close button -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <!-- The image is given a 'cursor: zoom-in' style -->
                     <img id="modalImage" src="@Model.PhotoUrl" alt="@Model.Name" class="img-fluid" style="cursor: zoom-in;" />
                 </div>
             </div>
@@ -87,9 +79,7 @@
     </div>
 }
 
-<!-- Inline CSS for simple zoom effect on the modal image -->
 <style>
-    /* When the image is clicked, the .zoomed class scales it up */
     #modalImage.zoomed {
         transform: scale(2);
         transition: transform 0.3s ease;
@@ -98,11 +88,9 @@
 
 @section Scripts {
     <script>
-        // Wait until the DOM is fully loaded
         document.addEventListener("DOMContentLoaded", function () {
             var modalImage = document.getElementById("modalImage");
             if (modalImage) {
-                // Toggle the zoom effect when the image is clicked
                 modalImage.addEventListener("click", function () {
                     modalImage.classList.toggle("zoomed");
                 });

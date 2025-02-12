@@ -27,7 +27,6 @@ namespace GrandmasBookShop.Models
         [Range(0, int.MaxValue, ErrorMessage = "Copies available must be 0 or more.")]
         public int CopiesAvailable { get; set; }
 
-        // New: Genre property
         [Required(ErrorMessage = "Genre is required.")]
         public string Genre { get; set; }
     }
