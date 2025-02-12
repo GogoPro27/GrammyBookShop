@@ -1,0 +1,204 @@
+﻿/* Existing styles */
+.logo-image {
+    height: 110px;
+}
+
+.cart-icon {
+    height: 24px;
+    width: auto;
+}
+
+.cart-badge {
+    background-color: #ffc107;
+    color: #212529;
+    margin-left: 5px;
+}
+
+/* ----------------------------- */
+/* Navbar Styling                */
+/* ----------------------------- */
+
+/* Override the navbar background (use !important if Bootstrap’s bg-white interferes) */
+.navbar {
+    background-color: #EEDEC5 !important; /* beige cream */
+}
+
+/* ----------------------------- */
+/* Vintage 3D Button Styling     */
+/* ----------------------------- */
+
+/* Vintage 3D Button Styling */
+/* Vintage 3D Button Styling with 3D on Every Side */
+.btn-vintage,
+.navbar-toggler {
+    background: linear-gradient(180deg, #f7a286, #a8624a); /* vintage brown gradient */
+    border: 1px solid #5D2B1A; /* vintage dark brown border */
+    color: #FDF6E3 !important; /* white-creamish text */
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    /* Multiple box-shadows to simulate a 3D look on all sides */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4), /* bottom-right shadow */
+    -3px -3px 5px rgba(255, 255, 255, 0.6), /* top-left highlight */
+    3px -3px 5px rgba(0, 0, 0, 0.3), /* top-right shadow */
+    -3px 3px 5px rgba(255, 255, 255, 0.2); /* bottom-left highlight */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 0.5rem 1rem; /* ensure ample padding for a button look */
+}
+
+    /* Hover state: Lift the button and deepen the shadows slightly */
+    .btn-vintage:hover,
+    .navbar-toggler:hover {
+        transform: translateY(-3px);
+        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6), -3px -3px 8px rgba(255, 255, 255, 0.8), 3px -3px 8px rgba(0, 0, 0, 0.4), -3px 3px 8px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Active state: Simulate a pressed button with reduced offset */
+    .btn-vintage:active,
+    .navbar-toggler:active {
+        transform: translateY(0);
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), -2px -2px 4px rgba(255, 255, 255, 0.7), 2px -2px 4px rgba(0, 0, 0, 0.3), -2px 2px 4px rgba(255, 255, 255, 0.3);
+    }
+
+
+
+/* ----------------------------- */
+/* Navbar Link Hover Styling     */
+/* ----------------------------- */
+
+/* Optionally, style the nav links to have a subtle button-like hover effect */
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Only apply to navbar links that are not vintage buttons */
+    .navbar-nav .nav-link:not(.btn-vintage) {
+        position: relative;
+        color: inherit;
+    }
+
+        /* Create the underline effect with a pseudo-element */
+        .navbar-nav .nav-link:not(.btn-vintage)::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px; /* Adjust the underline thickness */
+            background-color: #8B4513; /* vintage brown color */
+            transition: width 0.3s ease;
+        }
+
+        /* On hover, expand the underline */
+        .navbar-nav .nav-link:not(.btn-vintage):hover::after {
+            width: 100%;
+        }
+
+    /* ----------------------------------------------------- */
+    /* New Additions: Text Styling for the Navbar (Override) */
+    /* ----------------------------------------------------- */
+
+    /* Set non-vintage nav links to a brownish color */
+    .navbar-nav .nav-link:not(.btn-vintage) {
+        color: #8B4513;
+    }
+
+/* Set vintage buttons to a white-creamish color */
+.btn-vintage {
+    color: #FDF6E3 !important;
+}
+
+/* Optional spacing for navbar links */
+body > header > nav > div > div > ul.navbar-nav.flex-grow-1 * {
+    margin-right: 5px;
+}
+
+/* Main content area background styling */
+main {
+    background-color: #F8F3E9; /* Replace with your desired color or background */
+    padding: 2rem; /* Optional: Adds spacing around the content */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+
+/* Animate the card on hover */
+.row .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .row .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+/* ------------------------------
+   Button Overrides
+------------------------------ */
+
+/* Override btn-primary (e.g. the "Пребарај" button in Books/Index.cshtml) */
+.btn-primary {
+    background-color: #a8624a; /* Vintage brown */
+    border-color: #5D2B1A;
+    color: #FDF6E3;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        background-color: #f7a286; /* Lighter vintage brown */
+        border-color: #5D2B1A;
+        color: #FDF6E3;
+    }
+
+/* ------------------------------
+   Pagination Overrides
+------------------------------ */
+
+.pagination .page-link {
+    color: #8B4513; /* Vintage brown text */
+    background-color: #F8F3E9; /* Matches your main background */
+    border: 1px solid #a8624a;
+}
+
+    .pagination .page-link:hover {
+        background-color: #f7a286;
+        border-color: #5D2B1A;
+    }
+
+.pagination .page-item.active .page-link {
+    background-color: #a8624a;
+    border-color: #5D2B1A;
+    color: #FDF6E3;
+}
+
+/* ------------------------------
+   Navbar & Identity Links Overrides
+------------------------------ */
+
+/* Override nav-link colors (used in header and identity actions) */
+.navbar-nav .nav-link {
+    color: #8B4513 !important; /* Ensures a vintage brown */
+}
+
+    .navbar-nav .nav-link:hover {
+        color: #5D2B1A !important;
+    }
+
+/* Override btn-link for login/logout/register (if used) */
+.btn-link {
+    color: #8B4513;
+}
+
+    .btn-link:hover,
+    .btn-link:focus {
+        color: #5D2B1A;
+        text-decoration: underline;
+    }
+
+/* Set a repeating seamless background pattern for the entire page */
+body {
+    background: url('/images/seamless.jpg') repeat;
+    background-size: 150px 150px; /* Adjust these values as needed */
+}
+

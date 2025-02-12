@@ -135,9 +135,7 @@ C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.GrandmasBookShop.props
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.GrandmasBookShop.props
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\scopedcss\bundle\GrandmasBookShop.styles.css
-C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\scopedcss\projectbundle\GrandmasBookShop.bundle.scp.css
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\Grandmas.CE1F51FF.Up2Date
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\GrandmasBookShop.dll
 C:\Users\goraz\Desktop\dotnet\GrandmasBookShop\GrandmasBookShop\obj\Debug\net8.0\refint\GrandmasBookShop.dll

@@ -1,0 +1,8 @@
+﻿/* At the very top of wwwroot/css/GrandmasBookShop.styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Pacifico&display=swap');
+
+/* Your other global styles here */
+body {
+    font-family: 'Merriweather', serif;
+    /* ... other styles ... */
+}

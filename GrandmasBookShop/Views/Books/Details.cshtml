@@ -5,13 +5,25 @@
 
 <h1>Детали за книга</h1>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <h4 class="card-title">@Model.Name</h4>
-        <p class="card-text"><strong>Автор:</strong> @Model.Author</p>
-        <p class="card-text"><strong>Жанр:</strong> @Model.Genre</p>
-        <p class="card-text"><strong>Опис:</strong> @Model.Description</p>
-        <p class="card-text">
+<div class="row mb-3">
+    <!-- Left Column: Book Image -->
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+        {
+            <!-- Clicking the image opens the modal -->
+            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#imageModal">
+                <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="width:100%; max-width:200px;" />
+            </a>
+        }
+    </div>
+
+    <!-- Right Column: Book Details -->
+    <div class="col-md-8">
+        <h4>@Model.Name</h4>
+        <p><strong>Автор:</strong> @Model.Author</p>
+        <p><strong>Жанр:</strong> @Model.Genre</p>
+        <p><strong>Опис:</strong> @Model.Description</p>
+        <p>
             <strong>Цена:</strong>
             @if (Model.CopiesAvailable == 0)
             {
@@ -22,36 +34,79 @@
                 @string.Format("{0:N0} ден", Model.Price)
             }
         </p>
-        <p class="card-text"><strong>Достапни примероци:</strong> @Model.CopiesAvailable</p>
-        @if (!string.IsNullOrEmpty(Model.PhotoUrl))
-        {
-            <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-thumbnail" style="max-width:200px;" />
-        }
+        <p><strong>Достапни примероци:</strong> @Model.CopiesAvailable</p>
+
+        <!-- Shopping Cart Form -->
+        <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="quantity">Колку:</label>
+                <input type="number"
+                       id="quantity"
+                       name="quantity"
+                       value="1"
+                       min="1"
+                       max="@Model.CopiesAvailable"
+                       class="form-control"
+                       style="width: 100px;" />
+            </div>
+            <button type="submit" class="btn btn-success mt-2" @(Model.CopiesAvailable == 0 ? "disabled" : "")>
+                Додади во кошничка
+            </button>
+        </form>
+
+        <!-- Action Buttons -->
+        <div>
+            <a asp-action="Index" class="btn btn-secondary">Назад кон книгите</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Измени</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Избриши</a>
+            }
+        </div>
     </div>
 </div>
 
-<!-- Форма за додади во кошничка со бројчена влез (ограничена со достапни примери) -->
-<form asp-controller="ShoppingCart" asp-action="AddToCart" method="post" class="mb-3">
-    <input type="hidden" name="bookId" value="@Model.Id" />
-    <div class="form-group">
-        <label for="quantity">Колку:</label>
-        <input type="number"
-               id="quantity"
-               name="quantity"
-               value="1"
-               min="1"
-               max="@Model.CopiesAvailable"
-               class="form-control"
-               style="width: 100px;" />
+<!-- Modal for Image Zoom -->
+@if (!string.IsNullOrEmpty(Model.PhotoUrl))
+{
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">@Model.Name</h5>
+                    <!-- Bootstrap 5 close button -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <!-- The image is given a 'cursor: zoom-in' style -->
+                    <img id="modalImage" src="@Model.PhotoUrl" alt="@Model.Name" class="img-fluid" style="cursor: zoom-in;" />
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-success mt-2" @(Model.CopiesAvailable == 0 ? "disabled" : "")>Додади во кошничка</button>
-</form>
+}
 
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Назад кон книгите</a>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Измени</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Избриши</a>
+<!-- Inline CSS for simple zoom effect on the modal image -->
+<style>
+    /* When the image is clicked, the .zoomed class scales it up */
+    #modalImage.zoomed {
+        transform: scale(2);
+        transition: transform 0.3s ease;
     }
-</div>
+</style>
+
+@section Scripts {
+    <script>
+        // Wait until the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            var modalImage = document.getElementById("modalImage");
+            if (modalImage) {
+                // Toggle the zoom effect when the image is clicked
+                modalImage.addEventListener("click", function () {
+                    modalImage.classList.toggle("zoomed");
+                });
+            }
+        });
+    </script>
+}

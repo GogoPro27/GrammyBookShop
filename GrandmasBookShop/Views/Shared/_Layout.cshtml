@@ -29,17 +29,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Продавница на книги на баба</title>
+    <!-- Load Bootstrap first -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Basic site-wide styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GrandmasBookShop.styles.css" asp-append-version="true" />
+    <!-- Your custom overrides (define classes like .logo-image, .cart-icon, .cart-badge in this file) -->
+    <link rel="stylesheet" href="~/css/CustomLayout.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <!-- Брандирање со бабина слика -->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/grandma_logo.png" alt="Бабина слика" style="height:80px;" />
+                    <img src="~/images/grandma_logo.png" alt="Бабина слика" class="logo-image" />
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
@@ -48,27 +51,27 @@
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <!-- Леви линкови -->
+                    <!-- Left Links -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Дома</a>
+                            <a class="nav-link text-dark btn-vintage" asp-area="" asp-controller="Home" asp-action="Index">Дома</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Книги</a>
+                            <a class="nav-link text-dark btn-vintage" asp-area="" asp-controller="Books" asp-action="Index">Книги</a>
                         </li>
                     </ul>
-                    <!-- Десни делови: Кошничка и Логин дел -->
-                    <ul class="navbar-nav ml-auto">
+                    <!-- Right Side: Shopping Cart and Login -->
+                    <ul class="navbar-nav ml-auto ">
+                        <li class="nav-item">
+                            <partial name="_LoginPartial" />
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="ShoppingCart" asp-action="Index">
-                                <img src="~/images/shopping_cart.png" alt="Кошничка" style="height:24px; width:auto;" />
-                                <span class="badge badge-pill" style="background-color: #ffc107; color: #212529; margin-left: 5px;">
+                                <img src="~/images/shopping_cart.png" alt="Кошничка" class="cart-icon" />
+                                <span class="badge badge-pill cart-badge">
                                     @cartCount
                                 </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <partial name="_LoginPartial" />
                         </li>
                     </ul>
                 </div>
@@ -82,11 +85,15 @@
         </main>
     </div>
 
+    @* Footer is currently commented out. Uncomment if needed *@
+    @*
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Продавница на книги на баба - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика на приватност</a>
-        </div>
+    <div class="container">
+    &copy; 2025 - Продавница на книги на баба - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика на приватност</a>
+    </div>
     </footer>
+    *@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
